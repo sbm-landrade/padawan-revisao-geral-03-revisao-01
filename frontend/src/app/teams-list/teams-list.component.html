@@ -1,0 +1,123 @@
+<!-- Formulário de Pesquisa -->
+<section class="search-section">
+  <h2>Filtrar Times</h2>
+  <form (ngSubmit)="searchTeams()" class="search-form">
+    <div class="form-group">
+      <label for="teamName">Nome do Time:</label>
+      <input id="teamName" type="text" placeholder="Nome do Time" [(ngModel)]="teamName" name="teamName">
+    </div>
+    <div class="form-group">
+      <label for="country">País:</label>
+      <input id="country" type="text" placeholder="País" [(ngModel)]="country" name="country">
+    </div>
+    <div class="form-group">
+      <label for="coachName">Técnico:</label>
+      <input id="coachName" type="text" placeholder="Técnico" [(ngModel)]="coachName" name="coachName">
+    </div>
+    <div class="form-group">
+      <label for="teamValueMin">Valor Mínimo:</label>
+      <input id="teamValueMin" type="number" placeholder="Valor Mínimo" [(ngModel)]="teamValueMin" name="teamValueMin">
+    </div>
+    <div class="form-group">
+      <label for="teamValueMax">Valor Máximo:</label>
+      <input id="teamValueMax" type="number" placeholder="Valor Máximo" [(ngModel)]="teamValueMax" name="teamValueMax">
+    </div>
+    <div class="form-group">
+      <label for="createdAtFrom">Criado Desde:</label>
+      <input id="createdAtFrom" type="datetime-local" [(ngModel)]="createdAtFrom" name="createdAtFrom">
+    </div>
+    <div class="form-group">
+      <label for="createdAtTo">Criado Até:</label>
+      <input id="createdAtTo" type="datetime-local" [(ngModel)]="createdAtTo" name="createdAtTo">
+    </div>
+    <div class="form-group">
+      <label for="updatedAtFrom">Atualizado Desde:</label>
+      <input id="updatedAtFrom" type="datetime-local" [(ngModel)]="updatedAtFrom" name="updatedAtFrom">
+    </div>
+    <div class="form-group">
+      <label for="updatedAtTo">Atualizado Até:</label>
+      <input id="updatedAtTo" type="datetime-local" [(ngModel)]="updatedAtTo" name="updatedAtTo">
+    </div>
+    <button type="submit" class="form-button">Buscar</button>
+  </form>
+</section>
+
+<!-- Lista de Times -->
+<section class="team-list">
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>País</th>
+        <th>Técnico</th>
+        <th>Valor</th>
+        <th>Criado em</th>
+        <th>Atualizado em</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teams">
+        <td>{{ team.teamName }}</td>
+        <td>{{ team.country }}</td>
+        <td>{{ team.coachName }}</td>
+        <td>R$ {{ formatCurrency(team.teamValue) }}</td>
+        <td>{{ team.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ team.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <button (click)="selectTeam(team)">Editar</button>
+          <button (click)="onDelete(team.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Formulário de Edição -->
+<section *ngIf="selectedTeam" class="edit-section">
+  <h2>Editar Time</h2>
+  <form (ngSubmit)="saveTeam()" class="edit-form">
+    <div class="form-group">
+      <label for="editTeamName">Nome do Time:</label>
+      <input id="editTeamName" type="text" [(ngModel)]="selectedTeam.teamName" name="teamName">
+    </div>
+    <div class="form-group">
+      <label for="editCountry">País:</label>
+      <input id="editCountry" type="text" [(ngModel)]="selectedTeam.country" name="country">
+    </div>
+    <div class="form-group">
+      <label for="editCoachName">Técnico:</label>
+      <input id="editCoachName" type="text" [(ngModel)]="selectedTeam.coachName" name="coachName">
+    </div>
+    <div class="form-group">
+      <label for="editTeamValue">Valor:</label>
+      <input id="editTeamValue" type="number" [(ngModel)]="selectedTeam.teamValue" name="teamValue">
+    </div>
+    <button type="submit" class="form-button">Salvar</button>
+    <button type="button" class="form-button" (click)="clearSelection()">Cancelar</button>
+  </form>
+</section>
+
+<!-- Formulário de Criação -->
+<section class="create-section">
+  <h2>Criar Novo Time</h2>
+  <form (ngSubmit)="createTeam()" class="create-form">
+    <div class="form-group">
+      <label for="createTeamName">Nome do Time:</label>
+      <input id="createTeamName" type="text" placeholder="Nome do Time" [(ngModel)]="newTeam.teamName" name="teamName">
+    </div>
+    <div class="form-group">
+      <label for="createCountry">País:</label>
+      <input id="createCountry" type="text" placeholder="País" [(ngModel)]="newTeam.country" name="country">
+    </div>
+    <div class="form-group">
+      <label for="createCoachName">Técnico:</label>
+      <input id="createCoachName" type="text" placeholder="Técnico" [(ngModel)]="newTeam.coachName" name="coachName">
+    </div>
+    <div class="form-group">
+      <label for="createTeamValue">Valor:</label>
+      <input id="createTeamValue" type="number" placeholder="Valor" [(ngModel)]="newTeam.teamValue" name="teamValue">
+    </div>
+    <button type="submit" class="form-button">Criar</button>
+  </form>
+</section>

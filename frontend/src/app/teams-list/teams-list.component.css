@@ -1,0 +1,131 @@
+/* Geral */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Seções */
+.search-section, .team-list, .edit-section, .create-section {
+  margin: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulários */
+.search-form, .edit-form, .create-form {
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabela de Times */
+.team-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.team-list th, .team-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.team-list th {
+  background-color: #f4f4f4;
+}
+
+.team-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.team-list tr:hover {
+  background-color: #eaeaea;
+}
+
+.team-list button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px; /* Espaço entre os botões */
+}
+
+.team-list .btn-edit {
+  background-color: #007bff;
+}
+
+.team-list .btn-edit:hover {
+  background-color: #0056b3;
+}
+
+.team-list .btn-delete {
+  background-color: #dc3545; /* Cor vermelha para excluir */
+}
+
+.team-list .btn-delete:hover {
+  background-color: #c82333; /* Tom mais escuro de vermelho para hover */
+}
+
+/* Seção de Edição e Criação */
+.edit-section h2, .create-section h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Melhorias Adicionais */
+.search-section h2, .team-list h2, .edit-section h2, .create-section h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.search-form .form-group input,
+.edit-form .form-group input,
+.create-form .form-group input {
+  font-size: 16px;
+}
+
+.team-list th {
+  font-weight: bold;
+}
