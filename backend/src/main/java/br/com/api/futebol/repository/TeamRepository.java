@@ -30,6 +30,7 @@ public class TeamRepository {
 	}
 
 	public void save(Team team) {
+		// Se a equipe não tiver ID, insere; se tiver, atualiza.
 		String sql;
 		if (team.getId() == null) {
 			sql = "INSERT INTO teams (team_name, country, coach_name, team_value) VALUES (?, ?, ?, ?)";
@@ -69,10 +70,11 @@ public class TeamRepository {
 
 	public List<Team> findTeamsByCriteria(String teamName, String country, String coachName, BigDecimal teamValueMin, BigDecimal teamValueMax, LocalDateTime createdAtFrom, LocalDateTime createdAtTo, LocalDateTime updatedAtFrom, LocalDateTime updatedAtTo) {
 	    List<Team> teams = new ArrayList<>();
-	    StringBuilder sql = new StringBuilder("SELECT * FROM teams WHERE 1=1");
+	    StringBuilder sql = new StringBuilder("SELECT * FROM teams WHERE 1=1");//O WHERE 1=1 é uma técnica comum para
+	    //simplificar a adição de condições adicionais(facilita o uso de AND)
 
-	    if (teamName != null && !teamName.isEmpty()) {
-	        sql.append(" AND team_name LIKE ?");
+	    if (teamName != null && !teamName.isEmpty()) {//verifica se não é nulo, se o campo não é null
+	        sql.append(" AND team_name LIKE ?");//filtra o team_name	
 	    }
 
 	    if (country != null && !country.isEmpty()) {
@@ -113,7 +115,8 @@ public class TeamRepository {
 	        int index = 1;
 
 	        if (teamName != null && !teamName.isEmpty()) {
-	            statement.setString(index++, "%" + teamName + "%");
+	            statement.setString(index++, "%" + teamName + "%");//"%" + teamName + "%": Adiciona % ao redor de teamName para buscar 
+	            //qualquer texto que contenha o valor de teamName dentro dele.
 	        }
 
 	        if (country != null && !country.isEmpty()) {
@@ -148,10 +151,10 @@ public class TeamRepository {
 	            statement.setObject(index++, updatedAtTo);
 	        }
 
-	        try (ResultSet resultSet = statement.executeQuery()) {
+	        try (ResultSet resultSet = statement.executeQuery()) {//Armazena os resultados da consulta.
 	            while (resultSet.next()) {
 	                Team team = mapRow(resultSet);
-	                teams.add(team);
+	                teams.add(team);//Adiciona o objeto Team à lista teams
 	            }
 	        }
 	    } catch (SQLException e) {
@@ -191,8 +194,10 @@ public class TeamRepository {
 	}
 
 	private Team mapRow(ResultSet resultSet) throws SQLException {
+		//Converte resultados de banco de dados em objetos Team
 		Team team = new Team();
 		team.setId(resultSet.getInt("id"));
+		//Obtém o valor do campo id da linha atual do ResultSet e define no objeto team.
 		team.setTeamName(resultSet.getString("team_name"));
 		team.setCountry(resultSet.getString("country"));
 		team.setCoachName(resultSet.getString("coach_name"));
