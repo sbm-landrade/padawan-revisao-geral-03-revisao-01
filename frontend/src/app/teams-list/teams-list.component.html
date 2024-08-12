@@ -65,13 +65,14 @@
         <td>{{ team.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
         <td>{{ team.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
         <td>
-          <button (click)="selectTeam(team)">Editar</button>
-          <button (click)="onDelete(team.id)">Excluir</button>
+          <button (click)="selectTeam(team)" class="btn-edit">Editar</button>
+          <button (click)="onDelete(team.id)" class="btn-delete">Excluir</button>
         </td>
       </tr>
     </tbody>
   </table>
 </section>
+
 
 <!-- Formulário de Edição -->
 <section *ngIf="selectedTeam" class="edit-section">
