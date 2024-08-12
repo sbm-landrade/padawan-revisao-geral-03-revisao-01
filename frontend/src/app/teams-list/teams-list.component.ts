@@ -67,8 +67,11 @@ export class TeamsListComponent implements OnInit {
     //Atualiza um time existente. Após a atualização, atualiza a lista de times e desmarca o time selecionado.
     console.log('Atualizando team:', team); // Verifica os dados do time antes de enviar
     if (team.id != null) {
+          // Log para verificar se o ID está presente e o serviço será chamado
+      console.log('ID do time encontrado:', team.id);
       this.teamService.updateTeam(team).subscribe(() => {
-        console.log('Atualizado sucesso:', Response);
+        // Log para verificar a resposta do serviço
+        console.log('Atualizado com sucesso:', Response);
         this.searchTeams(); // Atualiza a lista após atualização
         this.selectedTeam = null; // Desmarca o time selecionado
       });

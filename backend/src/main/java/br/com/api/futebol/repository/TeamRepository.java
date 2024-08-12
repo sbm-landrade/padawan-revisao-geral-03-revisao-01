@@ -68,119 +68,131 @@ public class TeamRepository {
 		return findTeamsByCriteria(null, null, null, null, null, null, null, null, null);
 	}
 
-	public List<Team> findTeamsByCriteria(String teamName, String country, String coachName, BigDecimal teamValueMin, BigDecimal teamValueMax, LocalDateTime createdAtFrom, LocalDateTime createdAtTo, LocalDateTime updatedAtFrom, LocalDateTime updatedAtTo) {
-	    List<Team> teams = new ArrayList<>();
-	    StringBuilder sql = new StringBuilder("SELECT * FROM teams WHERE 1=1");//O WHERE 1=1 é uma técnica comum para
-	    //simplificar a adição de condições adicionais(facilita o uso de AND)
+	public List<Team> findTeamsByCriteria(String teamName, String country, String coachName, BigDecimal teamValueMin,
+			BigDecimal teamValueMax, LocalDateTime createdAtFrom, LocalDateTime createdAtTo,
+			LocalDateTime updatedAtFrom, LocalDateTime updatedAtTo) {
+		List<Team> teams = new ArrayList<>();
+		StringBuilder sql = new StringBuilder("SELECT * FROM teams WHERE 1=1");// O WHERE 1=1 é uma técnica comum para
+		// simplificar a adição de condições adicionais(facilita o uso de AND)
 
-	    if (teamName != null && !teamName.isEmpty()) {//verifica se não é nulo, se o campo não é null
-	        sql.append(" AND team_name LIKE ?");//filtra o team_name	
-	    }
+		if (teamName != null && !teamName.isEmpty()) {// verifica se não é nulo, se o campo não é null
+			sql.append(" AND team_name LIKE ?");// filtra o team_name
+		}
 
-	    if (country != null && !country.isEmpty()) {
-	        sql.append(" AND country LIKE ?");
-	    }
+		if (country != null && !country.isEmpty()) {
+			sql.append(" AND country LIKE ?");
+		}
 
-	    if (coachName != null && !coachName.isEmpty()) {
-	        sql.append(" AND coach_name LIKE ?");
-	    }
+		if (coachName != null && !coachName.isEmpty()) {
+			sql.append(" AND coach_name LIKE ?");
+		}
 
-	    if (teamValueMin != null) {
-	        sql.append(" AND team_value >= ?");
-	    }
+		if (teamValueMin != null) {
+			sql.append(" AND team_value >= ?");
+		}
 
-	    if (teamValueMax != null) {
-	        sql.append(" AND team_value <= ?");
-	    }
+		if (teamValueMax != null) {
+			sql.append(" AND team_value <= ?");
+		}
 
-	    if (createdAtFrom != null) {
-	        sql.append(" AND created_at >= ?");
-	    }
+		if (createdAtFrom != null) {// criado desde
+			sql.append(" AND created_at >= ?");
+		}
 
-	    if (createdAtTo != null) {
-	        sql.append(" AND created_at <= ?");
-	    }
+		if (createdAtTo != null) {// criado até
+			sql.append(" AND created_at <= ?");
+		}
 
-	    if (updatedAtFrom != null) {
-	        sql.append(" AND updated_at >= ?");
-	    }
+		if (updatedAtFrom != null) {
+			sql.append(" AND updated_at >= ?");
+		}
 
-	    if (updatedAtTo != null) {
-	        sql.append(" AND updated_at <= ?");
-	    }
+		if (updatedAtTo != null) {
+			sql.append(" AND updated_at <= ?");
+		}
 
-	    try (Connection connection = dataSource.getConnection();
-	         PreparedStatement statement = connection.prepareStatement(sql.toString())) {
-
-	        int index = 1;
-
-	        if (teamName != null && !teamName.isEmpty()) {
-	            statement.setString(index++, "%" + teamName + "%");//"%" + teamName + "%": Adiciona % ao redor de teamName para buscar 
-	            //qualquer texto que contenha o valor de teamName dentro dele.
-	        }
-
-	        if (country != null && !country.isEmpty()) {
-	            statement.setString(index++, "%" + country + "%");
-	        }
-
-	        if (coachName != null && !coachName.isEmpty()) {
-	            statement.setString(index++, "%" + coachName + "%");
-	        }
-
-	        if (teamValueMin != null) {
-	            statement.setBigDecimal(index++, teamValueMin);
-	        }
-
-	        if (teamValueMax != null) {
-	            statement.setBigDecimal(index++, teamValueMax);
-	        }
-
-	        if (createdAtFrom != null) {
-	            statement.setObject(index++, createdAtFrom);
-	        }
-
-	        if (createdAtTo != null) {
-	            statement.setObject(index++, createdAtTo);
-	        }
-
-	        if (updatedAtFrom != null) {
-	            statement.setObject(index++, updatedAtFrom);
-	        }
-
-	        if (updatedAtTo != null) {
-	            statement.setObject(index++, updatedAtTo);
-	        }
-
-	        try (ResultSet resultSet = statement.executeQuery()) {//Armazena os resultados da consulta.
-	            while (resultSet.next()) {
-	                Team team = mapRow(resultSet);
-	                teams.add(team);//Adiciona o objeto Team à lista teams
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return teams;
-	}
-
-
-	public Optional<Team> findById(Integer id) {
-		String sql = "SELECT * FROM teams WHERE id = ?";
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection.prepareStatement(sql)) {
+				PreparedStatement statement = connection.prepareStatement(sql.toString())) {
 
-			statement.setInt(1, id);
-			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.next()) {
-					return Optional.of(mapRow(resultSet));
+			int index = 1;
+
+			if (teamName != null && !teamName.isEmpty()) {
+				statement.setString(index++, "%" + teamName + "%");// "%" + teamName + "%": Adiciona % ao redor de
+																	// teamName para buscar
+				// qualquer texto que contenha o valor de teamName dentro dele.
+			}
+
+			if (country != null && !country.isEmpty()) {
+				statement.setString(index++, "%" + country + "%");
+			}
+
+			if (coachName != null && !coachName.isEmpty()) {
+				statement.setString(index++, "%" + coachName + "%");
+			}
+
+			if (teamValueMin != null) {
+				statement.setBigDecimal(index++, teamValueMin);
+			}
+
+			if (teamValueMax != null) {
+				statement.setBigDecimal(index++, teamValueMax);
+			}
+
+			if (createdAtFrom != null) {
+				statement.setObject(index++, createdAtFrom);
+			}
+
+			if (createdAtTo != null) {
+				statement.setObject(index++, createdAtTo);
+			}
+
+			if (updatedAtFrom != null) {
+				statement.setObject(index++, updatedAtFrom);
+			}
+
+			if (updatedAtTo != null) {
+				statement.setObject(index++, updatedAtTo);
+			}
+
+			try (ResultSet resultSet = statement.executeQuery()) {// Armazena os resultados da consulta.
+				while (resultSet.next()) {
+					Team team = mapRow(resultSet);
+					teams.add(team);// Adiciona o objeto Team à lista teams
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return teams;
+	}
+
+	public Optional<Team> findById(Integer id) {
+		String sql = "SELECT * FROM teams WHERE id = ?";
+		System.out.println("SQL Query: " + sql);
+		System.out.println("ID Parameter: " + id);
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
+			statement.setInt(1, id);
+			System.out.println("PreparedStatement created and parameter set.");
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					System.out.println("ResultSet contains a row.");
+					return Optional.of(mapRow(resultSet));
+				} else {
+					System.out.println("ResultSet is empty.");
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Returning Optional.empty()");
+			e.printStackTrace();
+		}
+		System.out.println("Returning Optional.empty()");
 		return Optional.empty();
 	}
 
+//Recupera um Team pelo seu ID. Se encontrado, retorna um Optional contendo o Team; caso contrário, retorna um Optional.empty().
 	public void deleteById(Integer id) {
 		String sql = "DELETE FROM teams WHERE id = ?";
 		try (Connection connection = dataSource.getConnection();
@@ -194,10 +206,11 @@ public class TeamRepository {
 	}
 
 	private Team mapRow(ResultSet resultSet) throws SQLException {
-		//Converte resultados de banco de dados em objetos Team
+		// Converte resultados de banco de dados em objetos Team
 		Team team = new Team();
 		team.setId(resultSet.getInt("id"));
-		//Obtém o valor do campo id da linha atual do ResultSet e define no objeto team.
+		// Obtém o valor do campo id da linha atual do ResultSet e define no objeto
+		// team.
 		team.setTeamName(resultSet.getString("team_name"));
 		team.setCountry(resultSet.getString("country"));
 		team.setCoachName(resultSet.getString("coach_name"));
