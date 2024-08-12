@@ -24,6 +24,7 @@ import br.com.api.futebol.model.Team;
 import br.com.api.futebol.service.TeamService;
 
 @RestController
+//Indica que esta classe é um controlador REST e suas respostas serão convertidas automaticamente em JSON.
 @RequestMapping("/api/teams")
 public class TeamController {
 
@@ -69,7 +70,7 @@ public class TeamController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Team> updateTeam(@PathVariable Integer id, @RequestBody Team team) {
 		if (teamService.getTeamById(id).isPresent()) {
-			team.setId(id);
+			team.setId(id);//Atualiza o ID do time com o ID fornecido na URL.
 			teamService.saveTeam(team);
 			return ResponseEntity.ok(team);
 		} else {
